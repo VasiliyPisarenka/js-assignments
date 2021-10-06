@@ -327,6 +327,7 @@ function getPositivesCount(arr) {
  */
 function sortDigitNamesByNumericOrder(arr) {
     const alphabet = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+
     return arr.sort((x, y) => alphabet.indexOf(x) - alphabet.indexOf(y));
 }
 
@@ -377,8 +378,7 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-    return arr.reduce((previousValue, currentValue) => previousValue
-    + (currentValue === item ? 1 : 0), 0);
+    return arr.reduce((previousValue, currentValue) => previousValue + (currentValue === item ? 1 : 0), 0);
 }
 
 /**
@@ -449,8 +449,7 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]   
  */
 function getIdentityMatrix(n) {
-    return Array.from({ length: n }, (v, i) => Array.from({ length: n }, (q, j) => (j === i ? 1
-    : 0)));
+    return Array.from({ length: n }, (v, i) => Array.from({ length: n }, (q, j) => (j === i ? 1 : 0)));
 }
 
 /**

@@ -57,6 +57,7 @@ function parseDataFromIso8601(value) {
  */
 function isLeapYear(date) {
    const year = date.getFullYear();
+   
    return year % 4 === 0 && (year % 400 === 0 || year % 100 !== 0);
 }
 
@@ -99,7 +100,7 @@ function angleBetweenClockHands(date) {
    const hours = 0.5 * (60 * hour + date.getUTCMinutes());
    const minutes = 6 * date.getUTCMinutes();
    const difference = hours - minutes > 180 ? hours - minutes - 180 : hours - minutes;
-   
+
    return Math.PI * Math.abs(difference) / 180;
 }
 

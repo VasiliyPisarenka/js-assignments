@@ -171,6 +171,7 @@ function isInsideCircle(circle, point) {
  */
 function findFirstSingleChar(str) {
     const match = str.match(/(.)(?!.*\1)(?<!\1.+)/);
+
     return match && match[1];
 }
 
@@ -259,7 +260,7 @@ function isCreditCardNumber(ccn) {
     let summ = 0;
     const ccns = ccn.toString();
 
-    for (let i = 0; i < ccns.length; i += 1) {
+    for (let i = 0; i < ccns.length; i++) {
         if (ccns.length % 2 !== i % 2) summ += ccns[i] * 1;
         else {
             summ += ccns[i] * 2 + (ccns[i] > 4 ? -9 : 0);
@@ -315,10 +316,12 @@ function isBracketsBalanced(str) {
     const stack = [];
     const open = ['[', '(', '{', '<'];
     const close = [']', ')', '}', '>'];
-    for (let i = 0; i < str.length; i += 1) {
+
+    for (let i = 0; i < str.length; i++) {
         if (open.indexOf(str[i]) >= 0) stack.push(open.indexOf(str[i]));
         else if (close[stack.pop()] !== str[i]) return false;
     }
+
     return stack.length === 0;
 }
 
@@ -428,7 +431,7 @@ function getCommonDirectoryPath(pathes) {
             }
         }
 
-        if (isActual == false) {
+        if (isActual === false) {
             break; 
         } else {
             result += newPathes[0][i] + '/'; 
@@ -464,7 +467,7 @@ function getMatrixProduct(m1, m2) {
     const colsM2 = m2[0].length;
     const result = [];
 
-    if (colsM1 != rowsM2) return false;
+    if (colsM1 !== rowsM2) return false;
     
     for (let i = 0; i < rowsM1; i++) result[i] = [];
 

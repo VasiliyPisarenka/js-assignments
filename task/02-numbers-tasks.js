@@ -129,6 +129,7 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
 function getLastDigit(value) {
     const str = `${value}`;
     const result = str[str.length - 1];
+
     return +result;
 }
 
@@ -184,6 +185,7 @@ function getParallelipidedDiagonal(a,b,c) {
  */
 function roundToPowerOfTen(num, pow) {
     const power = 10 ** pow;
+
     return Math.round(num / power) * power;
 }
 
@@ -205,10 +207,8 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
-    if (n < 2) {
-        return false;
-    }
-
+    if (n < 2) return false;
+    
     let i = 2;
 
     while (i <= n / 2) {
@@ -239,7 +239,7 @@ function toNumber(value, def) {
     const number = Number(value);
 
     if (number) return number;
-    
+
     return def;
 }
 
