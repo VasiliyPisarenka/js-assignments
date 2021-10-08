@@ -100,7 +100,77 @@ const PokerRank = {
 }
 
 function getPokerHandRank(hand) {
-    throw new Error('Not implemented');
+    console.log('start: ', hand)
+    const cartNumber = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    const onlyNumbers = [];
+
+    let isOrder = false;
+    let isNotSameSuit = false;
+    let fourSameValue = false;
+    let threeSameValue = false;
+    let firstTwoSameValue = false;
+    let secondTwoSameValue = false;
+
+    for (let i = 0; i < hand.length; i ++) {
+        const cart = hand[i].slice(0, -1)
+        onlyNumbers.push(cartNumber.indexOf(cart));
+
+        if (!isNotSameSuit && hand[0][hand[0].length - 1] != hand[i][hand[i].length - 1]) {
+            isNotSameSuit = true;
+        }
+    }
+
+    onlyNumbers.sort((a, b) => a - b);
+
+    if (onlyNumbers[4] - onlyNumbers[0] == 4 && onlyNumbers[3] - onlyNumbers[0] == 3 && onlyNumbers[4] - onlyNumbers[1] == 3) {
+        isOrder = true;
+    }
+
+    if (onlyNumbers.indexOf(0) != -1 && onlyNumbers.indexOf(9) != -1 && onlyNumbers.indexOf(10) != -1 && onlyNumbers.indexOf(11) != -1 && onlyNumbers.indexOf(12) != -1) {
+        isOrder = true;
+    }
+
+    const sameCard = {};
+    onlyNumbers.forEach((a) => sameCard[a] = sameCard[a] + 1 || 1);
+
+    Object.values(sameCard).forEach(function(a){
+        switch (a) {
+            case 4:
+                fourSameValue = true;
+                break;
+            case 3:
+                threeSameValue = true;
+                break;
+            case 2:
+                if (firstTwoSameValue) secondTwoSameValue = true;
+                else firstTwoSameValue = true;
+            break;
+        }
+    })
+  
+    console.log('isOrder: ', isOrder)
+    console.log('isNotSameSuit: ', isNotSameSuit)
+    console.log('fourSameValue: ', fourSameValue)
+    console.log('threeSameValue: ', threeSameValue)
+    console.log('firstTwoSameValue: ', firstTwoSameValue)
+    console.log('secondTwoSameValue: ', secondTwoSameValue)
+
+    console.log('itog: ', hand)   
+    
+    
+    if (isOrder && !isNotSameSuit)  {
+        return PokerRank.StraightFlush;
+    } 
+
+    if (fourSameValue) return PokerRank.FourOfKind; 
+    if (!isOrder && !isNotSameSuit) return PokerRank.Flush; 
+    if (isOrder && isNotSameSuit) return PokerRank.Straight;
+    if (threeSameValue && firstTwoSameValue) return PokerRank.FullHouse; 
+    if (threeSameValue && !firstTwoSameValue) return PokerRank.ThreeOfKind; 
+    if (firstTwoSameValue && secondTwoSameValue) return PokerRank.TwoPairs; 
+    if (firstTwoSameValue && !secondTwoSameValue) return PokerRank.OnePair; 
+
+    return PokerRank.HighCard;
 }
 
 
