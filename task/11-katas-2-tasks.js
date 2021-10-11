@@ -135,6 +135,7 @@ function getPokerHandRank(hand) {
 
     onlyNumbers.sort((a, b) => a - b);
 
+
     for (let i = 0; i < onlyNumbers.length - 1; i ++) {
         if (onlyNumbers[i + 1] - onlyNumbers[i] != 1) {
             isNotOrder = true;
