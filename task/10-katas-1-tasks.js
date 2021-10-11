@@ -18,7 +18,7 @@
  */
 function createCompassPoints() {
     throw new Error('Not implemented');
-    var sides = ['N','E','S','W'];  // use array of cardinal directions only!
+    var sides = ['N','E','S','W'];  // use array of cardinal directions only! 
 }
 
 
@@ -88,7 +88,26 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    throw new Error('Not implemented');
+    const result = Array.from({ length: n }, (v, i) => Array.from({ length: n }, (q, j) => 0));
+
+    let colum = 1;
+    let row = 1;
+
+    for (let k = 0; k < n * n; k++) {
+        result[colum - 1][row - 1] = k;
+
+        if ((colum + row) % 2 == 0) {
+            if (row < n) row++;
+            else colum += 2;
+            if (colum > 1) colum--;
+        } else {
+            if (colum < n) colum++;
+            else row += 2;
+            if (row > 1) row--;
+        }
+    }
+
+    return result;
 }
 
 
@@ -137,7 +156,16 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    throw new Error('Not implemented');
+    let result = '';
+    
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i + 1] == nums[i] + 1 && result[result.length - 1] == '-') continue;
+        else if (nums[i + 2] == nums[i] + 2 && (result[result.length - 1] != '-')) result += nums[i] + '-'; 
+        else if (nums[i + 1]) result += nums[i] + ',';
+        else result += nums[i];
+    }
+
+    return result;
 }
 
 module.exports = {

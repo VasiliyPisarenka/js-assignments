@@ -34,7 +34,21 @@
  *
  */
 function parseBankAccount(bankAccount) {
-    throw new Error('Not implemented');
+    const code = [' _ | ||_|', '     |  |', ' _  _||_ ', ' _  _| _|', '   |_|  |', ' _ |_  _|', ' _ |_ |_|', ' _   |  |', ' _ |_||_|', ' _ |_| _|'];
+    let result = ''
+
+    const bankAccountArr = bankAccount.split(/\r?\n/);
+    bankAccountArr.pop();
+
+    for (let i = 0; i < bankAccountArr[0].length; i += 3) {
+        const str = bankAccountArr[0][i] + bankAccountArr[0][i + 1] + bankAccountArr[0][i + 2] 
+                  + bankAccountArr[1][i] + bankAccountArr[1][i + 1] + bankAccountArr[1][i + 2] 
+                  + bankAccountArr[2][i] + bankAccountArr[2][i + 1] + bankAccountArr[2][i + 2];
+   
+        result = result + code.indexOf(str);
+    }
+
+    return +result;
 }
 
 
@@ -100,7 +114,65 @@ const PokerRank = {
 }
 
 function getPokerHandRank(hand) {
-    throw new Error('Not implemented');
+    const cartNumber = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    const onlyNumbers = [];
+
+    let isNotOrder = false;
+    let isNotSameSuit = false;
+    let fourSameValue = false;
+    let threeSameValue = false;
+    let firstTwoSameValue = false;
+    let secondTwoSameValue = false;
+
+    for (let i = 0; i < hand.length; i ++) {
+        const cart = hand[i].slice(0, -1)
+        onlyNumbers.push(cartNumber.indexOf(cart));
+
+        if (!isNotSameSuit && hand[0][hand[0].length - 1] != hand[i][hand[i].length - 1]) {
+            isNotSameSuit = true;
+        }
+    }
+
+    onlyNumbers.sort((a, b) => a - b);
+
+    for (let i = 0; i < onlyNumbers.length - 1; i ++) {
+        if (onlyNumbers[i + 1] - onlyNumbers[i] != 1) {
+            isNotOrder = true;
+        }
+    }
+
+    if (onlyNumbers.indexOf(0) != -1 && onlyNumbers.indexOf(9) != -1 && onlyNumbers.indexOf(10) != -1 && onlyNumbers.indexOf(11) != -1 && onlyNumbers.indexOf(12) != -1) {
+        isNotOrder = false;
+    }
+
+    const sameCard = {};
+    onlyNumbers.forEach((item) => sameCard[item] = sameCard[item] + 1 || 1);
+
+    Object.values(sameCard).forEach((item) => {
+        switch (item) {
+            case 4:
+                fourSameValue = true;
+                break;
+            case 3:
+                threeSameValue = true;
+                break;
+            case 2:
+                if (firstTwoSameValue) secondTwoSameValue = true;
+                else firstTwoSameValue = true;
+            break;
+        }
+    })
+
+    if (!isNotOrder && !isNotSameSuit) return PokerRank.StraightFlush;
+    if (fourSameValue) return PokerRank.FourOfKind; 
+    if (isNotOrder && !isNotSameSuit) return PokerRank.Flush; 
+    if (!isNotOrder && isNotSameSuit) return PokerRank.Straight;
+    if (threeSameValue && firstTwoSameValue) return PokerRank.FullHouse; 
+    if (threeSameValue && !firstTwoSameValue) return PokerRank.ThreeOfKind; 
+    if (firstTwoSameValue && secondTwoSameValue) return PokerRank.TwoPairs; 
+    if (firstTwoSameValue && !secondTwoSameValue) return PokerRank.OnePair; 
+
+    return PokerRank.HighCard;
 }
 
 
